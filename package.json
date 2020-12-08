@@ -1,0 +1,14 @@
+{
+  "name": "mern-projects-tasks-backend",
+  "version": "1.0.0",
+  "description": "api for projecthandler app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Alvarado Varela",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
