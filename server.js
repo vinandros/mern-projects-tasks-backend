@@ -1,15 +1,29 @@
 import express from "express";
 import dotenv from "dotenv";
+import connectDB from "./config/db.js";
 
-dotenv.config();
+import users from "./routes/users.js";
+import auth from "./routes/auth.js";
+
+dotenv.config({ path: "variables.env" });
 
 // creating server
 const app = express();
 
-//main page
-// app.get("/", (req, res) => {
-//   res.send("hi World!");
-// });
+// connectDB
+connectDB();
+
+// enable express.json
+app.use(express.json({ extended: true }));
+
+// routes
+app.use("/api/users", users);
+app.use("/api/auth", auth);
+
+// main page
+app.get("/", (req, res) => {
+  res.send("API project handler app.");
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
