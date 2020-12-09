@@ -48,6 +48,6 @@ export const createUser = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
-    res.status(400).json({ msg: "Something went wrong!" });
+    res.status(500).json({ msg: "Something went wrong!" });
   }
 };

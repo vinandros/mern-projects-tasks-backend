@@ -14,6 +14,7 @@ const connectDB = async () => {
       useFindAndModify: false,
       useCreateIndex: true,
     });
+    console.log("DB connected");
     //state
     const db = mongoose.connection;
     db.on("error", (console) => {

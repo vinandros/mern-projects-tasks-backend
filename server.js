@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 
 import users from "./routes/users.js";
 import auth from "./routes/auth.js";
+import projects from "./routes/projects.js";
 
 dotenv.config({ path: "variables.env" });
 
@@ -19,6 +20,7 @@ app.use(express.json({ extended: true }));
 // routes
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+app.use("/api/projects", projects);
 
 // main page
 app.get("/", (req, res) => {
