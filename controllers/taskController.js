@@ -36,7 +36,7 @@ export const getTaskFromProject = async (req, res) => {
     res.status(400).json({ errors: errors.array() });
   }
   try {
-    const { projectId } = req.body;
+    const { projectId } = req.query;
     const project = await Project.findById(projectId);
     if (!project) {
       res.status(404).json({ msg: "Project not Found!" });
@@ -47,7 +47,7 @@ export const getTaskFromProject = async (req, res) => {
       res.status(401).json({ msg: "Not Autorized." });
     }
 
-    const tasks = await Task.find({ projectId });
+    const tasks = await Task.find({ projectId }).sort({ createdAt: -1 });
     res.json({ tasks });
   } catch (error) {
     console.log(error);
@@ -69,17 +69,19 @@ export const updateTask = async (req, res) => {
     }
 
     // check if task exist
-    let task = Task.findById({ _id: req.params.id });
+    let task = await Task.findById({ _id: req.params.id });
     if (!task) {
       res.status(404).json({ msg: "Task not found." });
     }
     //update task
     const newTask = {};
-    if (name) {
-      newTask.name = name;
-    }
-    if (state) {
-      newTask.state = state;
+    newTask.name = name;
+    if (name === task.name) {
+      if (state) {
+        newTask.state = false;
+      } else {
+        newTask.state = true;
+      }
     }
 
     //save new task
@@ -99,7 +101,7 @@ export const deleteTask = async (req, res) => {
     res.status(400).json({ errors: errors.array() });
   }
   try {
-    const { projectId } = req.body;
+    const { projectId } = req.query;
     //check project owner and authorization
     const project = await Project.findById(projectId);
     if (project.owner.toString() !== req.user.id) {

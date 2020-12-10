@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-
+import cors from "cors";
+//router
 import users from "./routes/users.js";
 import auth from "./routes/auth.js";
 import projects from "./routes/projects.js";
@@ -14,6 +15,9 @@ const app = express();
 
 // connectDB
 connectDB();
+
+//enable cors
+app.use(cors());
 
 // enable express.json
 app.use(express.json({ extended: true }));

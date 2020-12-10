@@ -15,13 +15,13 @@ export const userAuthentication = async (req, res) => {
     //check use exist
     let user = await User.findOne({ email });
     if (!user) {
-      res.status(400).json({ msg: "User not exist!" });
+      res.status(400).json({ msg: "User not exist" });
     }
 
     //check password
     const rightPassword = await bcryptjs.compare(password, user.password);
     if (!rightPassword) {
-      res.status(400).json({ msg: "Incorrect password!" });
+      res.status(400).json({ msg: "Incorrect password" });
     }
 
     //create and firm jwt
@@ -47,5 +47,15 @@ export const userAuthentication = async (req, res) => {
     console.log(error);
     res.status(400).json({ msg: "Something went wrong!" });
     process.exit(1);
+  }
+};
+
+export const authenticatedUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Something went wrong!" });
   }
 };
